@@ -1,13 +1,9 @@
 import logging
-import os
 import sys
+from triangle import get_triangle_type_and_coords
 
-from triangle import calculate_triangle
 
-
-def setup_logging() -> None:
-    os.makedirs("logs", exist_ok=True)
-
+def main():
     log_format = "%(asctime)s | [%(levelname)-7s] | %(message)s"
     date_format = "%Y-%m-%d %H:%M:%S"
 
@@ -17,40 +13,30 @@ def setup_logging() -> None:
         datefmt=date_format,
         handlers=[
             logging.StreamHandler(sys.stdout),
-            logging.FileHandler("logs/file_txt.log", encoding="utf-8"),
-        ],
+            logging.FileHandler("logs/file_txt.log", encoding="utf-8")
+        ]
     )
 
-
-def main() -> None:
-    setup_logging()
     logging.info("Логгер успешно сконфигурирован")
     logging.info("Приложение запущено")
 
-    requests = [
-        ("3", "3", "3"),          # равносторонний
-        ("3", "4", "5"),          # разносторонний
-        ("5", "5", "8"),          # равнобедренный
-        ("1", "2", "10"),         # не треугольник
-        ("abc", "2", "3"),        # нечисловые данные
-        ("-1", "2", "3"),         # отрицательное число
-        ("4.5", "4.5", "6"),      # равнобедренный (float)
-    ]
+    try:
+        a = input("Введите сторону A: ")
+        b = input("Введите сторону B: ")
+        c = input("Введите сторону C: ")
 
-    for a, b, c in requests:
-        logging.info("--- Новый запрос: a=%s, b=%s, c=%s ---", a, b, c)
-        try:
-            ttype, coords = calculate_triangle(a, b, c)
-            logging.info(
-                "УСПЕШНЫЙ ЗАПРОС | a=%s b=%s c=%s | тип=%r | координаты=%s",
-                a, b, c, ttype, coords,
-            )
-        except Exception:
-            logging.exception(
-                "НЕУСПЕШНЫЙ ЗАПРОС | a=%s b=%s c=%s | непредвиденная ошибка", a, b, c
-            )
+        logging.info(f"Запрос: A={a}, B={b}, C={c}")
 
-    logging.info("Приложение завершено")
+        triangle_type, coords = get_triangle_type_and_coords(a, b, c)
+
+        logging.info(f"Результат: тип='{triangle_type}', координаты={coords}")
+        print(f"Тип треугольника: {triangle_type}")
+        print(f"Координаты вершин: {coords}")
+
+    except Exception as ex:
+        logging.error("Неуспешный запрос")
+        logging.exception("Трассировка стека:")
+        print("Произошла ошибка при обработке запроса")
 
 
 if __name__ == "__main__":
