@@ -13,13 +13,20 @@ def get_triangle_type_and_coords(s1, s2, s3):
         logging.warning("Стороны должны быть положительными")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    if a + b <= c or a + c <= b or b + c <= a:
+    if (a + b < c or math.isclose(a + b, c)) or \
+       (a + c < b or math.isclose(a + c, b)) or \
+       (b + c < a or math.isclose(b + c, a)):
         logging.warning("Условие треугольника не выполнено")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    if a == b == c:
+    # Сравнение сторон через math.isclose вместо ==
+    ab = math.isclose(a, b)
+    ac = math.isclose(a, c)
+    bc = math.isclose(b, c)
+
+    if ab and ac:
         t_type = "равносторонний"
-    elif a == b or a == c or b == c:
+    elif ab or ac or bc:
         t_type = "равнобедренный"
     else:
         t_type = "разносторонний"
@@ -36,7 +43,11 @@ def calculate_coords(a, b, c):
     x2, y2 = int(a * scale), 0
 
     cos_angle = (a * a + b * b - c * c) / (2 * a * b)
+
+    # Защита от микроскопического выхода за [-1, 1] из-за погрешности float,
+    # иначе math.acos вернёт nan.
     cos_angle = max(-1.0, min(1.0, cos_angle))
+
     angle = math.acos(cos_angle)
 
     x3 = int(b * scale * math.cos(angle))
