@@ -12,3 +12,15 @@ env/
 # Локальные системные файлы операционных систем
 .DS_Store
 Thumbs.db
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# Логи
+logs/
+Logs/
+*.log
+
+# Вложенная копия проекта (на всякий случай)
+PTPM-VKI/
