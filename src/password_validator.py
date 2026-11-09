@@ -25,3 +25,5 @@ def validate_password(password: str) -> bool:
         return False
 
     return True
+
+#привет!

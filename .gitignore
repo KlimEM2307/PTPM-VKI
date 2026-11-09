@@ -1,2 +1,22 @@
-logs/file_txt.log
-__pycache__/triangle.cpython-313.pyc
+# Байт-код и кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Отчеты о покрытии тестами
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Виртуальные окружения
+venv/
+env/
+.venv/
+
+# Настройки IDE
+.idea/
+.vscode/
+
+# Логи
+logs/
+*.log
