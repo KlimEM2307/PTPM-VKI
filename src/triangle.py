@@ -13,13 +13,15 @@ def get_triangle_type_and_coords(s1, s2, s3):
         logging.warning("Стороны должны быть положительными")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    if a + b <= c or a + c <= b or b + c <= a:
+    if (a + b <= c or math.isclose(a + b, c)) or \
+       (a + c <= b or math.isclose(a + c, b)) or \
+       (b + c <= a or math.isclose(b + c, a)):
         logging.warning("Условие треугольника не выполнено")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    if a == b == c:
+    if math.isclose(a, b) and math.isclose(b, c):
         t_type = "равносторонний"
-    elif a == b or a == c or b == c:
+    elif math.isclose(a, b) or math.isclose(a, c) or math.isclose(b, c):
         t_type = "равнобедренный"
     else:
         t_type = "разносторонний"
