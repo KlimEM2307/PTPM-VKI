@@ -53,7 +53,6 @@ def calculate_coords(a, b, c):
 
 
 class TriangleCalculator:
-    """Класс вычислений (Лаба №1), обёрнутый для Лабы №3."""
 
     @staticmethod
     def calculate(s1, s2, s3):

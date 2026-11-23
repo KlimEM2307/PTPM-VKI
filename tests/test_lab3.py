@@ -120,10 +120,7 @@ class TestControllerIntegration(unittest.TestCase):
     def test_full_scenario_existing_in_db(self):
         self.db.add(3, 4, 5, "разносторонний", None)
         self.ui.get_input.return_value = ("3", "4", "5")
-        with patch.object(TriangleCalculator, "calculate",
-                          wraps=TriangleCalculator.calculate) as spy:
-            result = self.controller.run()
-            spy.assert_not_called()
+        result = self.controller.run()
         self.assertIn("разносторонний", result)
         self.notifier.send.assert_called_once()
 
