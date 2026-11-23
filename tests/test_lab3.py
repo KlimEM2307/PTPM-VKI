@@ -129,3 +129,9 @@ class TestControllerIntegration(unittest.TestCase):
         result = self.controller.run()
         self.assertIn("Ошибка", result)
         self.notifier.send.assert_called_once()
+
+    def test_not_twice(self):
+        self.ui.get_input.return_value = ("5", "5", "5")
+        self.controller.run()
+        self.controller.run()
+        TriangleCalculator.calculate.assert_called_once()
